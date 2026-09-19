@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-card">
+    <h2 class="text-center">Verificar Registro</h2>
+    <p class="text-center text-muted">Hemos enviado un código de activación a <strong>{{ email }}</strong></p>
+    
+    <form method="POST" action="{{ url_for('auth_routes.verificar_registro') }}" class="auth-form mt-2">
+        <div class="form-group text-center">
+            <label for="codigo">Código de Activación</label>
+            <input type="text" id="codigo" name="codigo" class="form-control text-center code-input" maxlength="6" autocomplete="off" required autofocus>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Activar Cuenta</button>
+    </form>
+</div>
+{% endblock %}

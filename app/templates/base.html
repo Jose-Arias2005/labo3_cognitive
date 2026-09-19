@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LabAdmin - Panel de Administración</title>
+    <!-- CSS Propio -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">LabAdmin</a>
+            {% if session.get('user_id') %}
+            <div class="nav-links">
+                <span class="user-info">Hola, {{ session.get('nombre') }} ({{ session.get('rol') }})</span>
+                <a href="{{ url_for('usuario_routes.dashboard') }}" class="nav-btn">Dashboard</a>
+                {% if session.get('rol') == 'admin' %}
+                <a href="{{ url_for('usuario_routes.listar_usuarios') }}" class="nav-btn">Usuarios</a>
+                {% endif %}
+                <a href="{{ url_for('auth_routes.logout') }}" class="nav-btn btn-danger">Salir</a>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- JS Propio -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

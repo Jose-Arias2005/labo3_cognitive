@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header flex-between">
+    <h2>Gestión de Usuarios</h2>
+    <a href="{{ url_for('usuario_routes.crear_usuario') }}" class="btn btn-success">+ Nuevo Usuario</a>
+</div>
+
+<div class="table-container mt-2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.email }}</td>
+                <td>
+                    <span class="badge badge-{{ u.rol }}">{{ u.rol|capitalize }}</span>
+                </td>
+                <td class="actions-cell">
+                    <a href="{{ url_for('usuario_routes.editar_usuario', uid=u.id) }}" class="btn btn-sm btn-primary">Editar</a>
+                    <form action="{{ url_for('usuario_routes.eliminar_usuario', uid=u.id) }}" method="POST" class="d-inline form-eliminar">
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No hay usuarios registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
